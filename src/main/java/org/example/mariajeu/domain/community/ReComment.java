@@ -8,34 +8,27 @@ import lombok.NoArgsConstructor;
 import org.example.mariajeu.domain.User;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity
-public class Post {
+public class ReComment{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    // Post(N):User(1)
+    @JoinColumn(name = "comment_id")
+    @ManyToOne
+    private Comment commentId;
+
     @JoinColumn(name = "user_id", nullable = false)
     @ManyToOne
     private User userId;
 
     @Column(nullable = false)
-    private String title;
-
-    @Column(nullable = false)
     private String content;
-
-    // Post(1):Comment(N)
-    @JoinColumn(name = "post_id", nullable = true)
-    @OneToMany
-    @Builder.Default
-    private ArrayList<Comment> comments = new ArrayList<>();
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
@@ -45,7 +38,6 @@ public class Post {
         this.createdAt = LocalDateTime.now();
         this.modifiedAt = LocalDateTime.now();
     }
-
 
 
 }

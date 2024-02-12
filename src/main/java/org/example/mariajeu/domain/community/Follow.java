@@ -2,43 +2,44 @@ package org.example.mariajeu.domain.community;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.mariajeu.domain.User;
+import org.example.mariajeu.domain.userDomain.User;
 
 import java.time.LocalDateTime;
 
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity
-public class Comment {
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name="follow_unique_key",
+                        columnNames = {"from_user_id","to_user_id"}
+                )
+        }
+)
+public class Follow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "from_user_id")
     @ManyToOne
-    private Post post_id;
+    private User fromUser;
 
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "to_user_id")
     @ManyToOne
-    private User user;
+    private User toUser;
 
-    @Column(nullable = false)
-    private String content;
 
     private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
 
     @PrePersist
-    public void dateTime() {
+    public void createdAt()
+    {
         this.createdAt = LocalDateTime.now();
-        this.modifiedAt = LocalDateTime.now();
     }
-
-
 
 }

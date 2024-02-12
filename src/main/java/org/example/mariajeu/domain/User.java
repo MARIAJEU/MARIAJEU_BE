@@ -19,11 +19,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column // User(1):Post(N)
-    @OneToMany(mappedBy = "user")
-    private ArrayList<Post> posts = new ArrayList<>();
-
-
     private String username;
     private String password;
 }
