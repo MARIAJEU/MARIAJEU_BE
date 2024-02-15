@@ -14,7 +14,7 @@ public class ReplyDTO {
 
     private Long id;
     private UserDTO user; // 유저 정보 추가
-    private ReviewDTO review; // 리뷰 정보 추가
+    private RestaurantReviewDTO review; // 리뷰 정보 추가
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -23,7 +23,7 @@ public class ReplyDTO {
         return ReplyDTO.builder()
                 .id(reply.getId())
                 .user(UserDTO.fromEntity(reply.getUser()))
-                .review(ReviewDTO.fromEntity(reply.getReview()))
+                .review(RestaurantReviewDTO.fromEntity(reply.getReview()))
                 .content(reply.getContent())
                 .createdAt(reply.getCreatedAt())
                 .updatedAt(reply.getUpdatedAt())
