@@ -3,9 +3,9 @@ package org.example.mariajeu.service.homepageService;
 import org.example.mariajeu.domain.homepageDomain.Review.RestaurantReview;
 import org.example.mariajeu.domain.homepageDomain.restaurantDomain.Restaurant;
 import org.example.mariajeu.domain.userDomain.User;
-import org.example.mariajeu.dto.homepageDto.ReviewDTO;
-import org.example.mariajeu.repository.homepageRepository.RestaurantRepository;
-import org.example.mariajeu.repository.homepageRepository.ReviewRepository;
+import org.example.mariajeu.dto.homepageDto.RestaurantReviewDTO;
+import org.example.mariajeu.repository.homepageRepository.restaurantRepository.RestaurantRepository;
+import org.example.mariajeu.repository.homepageRepository.RestaurantReviewRepository;
 import org.example.mariajeu.repository.userRepository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -17,10 +17,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ReviewService {
+public class RestaurantReviewService {
 
     @Autowired
-    private ReviewRepository reviewRepository;
+    private RestaurantReviewRepository reviewRepository;
 
     @Autowired
     private ReplyService replyService;
@@ -32,20 +32,20 @@ public class ReviewService {
     private RestaurantRepository restaurantRepository;
 
 
-    public List<ReviewDTO> getAllReviews() {
+    public List<RestaurantReviewDTO> getAllReviews() {
         List<RestaurantReview> reviews = reviewRepository.findAll();
         return reviews.stream()
-                .map(ReviewDTO::fromEntity)
+                .map(RestaurantReviewDTO::fromEntity)
                 .collect(Collectors.toList());
     }
 
-    public ReviewDTO getReviewById(Long reviewId) {
+    public RestaurantReviewDTO getReviewById(Long reviewId) {
         RestaurantReview review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Review not found with id: " + reviewId));
-        return ReviewDTO.fromEntity(review);
+        return RestaurantReviewDTO.fromEntity(review);
     }
 
-    public ReviewDTO createReview(Long userId, Long restaurantId, ReviewDTO reviewDTO) {
+    public RestaurantReviewDTO createReview(Long userId, Long restaurantId, RestaurantReviewDTO reviewDTO) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id: " + userId));
 
@@ -60,7 +60,7 @@ public class ReviewService {
                 .build();
 
         RestaurantReview savedReview = reviewRepository.save(review);
-        return ReviewDTO.fromEntity(savedReview);
+        return RestaurantReviewDTO.fromEntity(savedReview);
     }
 
     public void deleteReview(Long reviewId) {
