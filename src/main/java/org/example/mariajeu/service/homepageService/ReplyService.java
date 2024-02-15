@@ -5,7 +5,7 @@ import org.example.mariajeu.domain.homepageDomain.Review.RestaurantReview;
 import org.example.mariajeu.domain.userDomain.User;
 import org.example.mariajeu.dto.homepageDto.ReplyDTO;
 import org.example.mariajeu.repository.homepageRepository.ReplyRepository;
-import org.example.mariajeu.repository.homepageRepository.ReviewRepository;
+import org.example.mariajeu.repository.homepageRepository.RestaurantReviewRepository;
 import org.example.mariajeu.repository.userRepository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ public class ReplyService {
     private ReplyRepository replyRepository;
 
     @Autowired
-    private ReviewRepository reviewRepository;
+    private RestaurantReviewRepository reviewRepository;
 
     @Autowired
     private UserRepository userRepository;
