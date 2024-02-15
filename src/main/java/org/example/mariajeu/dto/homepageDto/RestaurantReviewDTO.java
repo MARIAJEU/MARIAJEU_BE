@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class ReviewDTO {
+public class RestaurantReviewDTO {
 
     private Long id;
     private UserDTO user; // 유저 정보 추가
@@ -20,8 +20,8 @@ public class ReviewDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public static ReviewDTO fromEntity(RestaurantReview review) {
-        return ReviewDTO.builder()
+    public static RestaurantReviewDTO fromEntity(RestaurantReview review) {
+        return RestaurantReviewDTO.builder()
                 .id(review.getId())
                 .user(UserDTO.fromEntity(review.getUser()))
                 .content(review.getContent())
