@@ -48,7 +48,7 @@ public class FoodArticleDTO {
         this.acidity = acidity;
         this.fizziness = fizziness;
         this.tannic = tannic;
-        this.likesCount = likesCount;
+        this.likesCount=likesCount;
     }
 
     public FoodArticleDTO(FoodArticle savedFoodArticle) {

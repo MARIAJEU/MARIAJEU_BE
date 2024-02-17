@@ -18,18 +18,24 @@ import java.util.List;
 import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
-public class FoodArticleService {
+public class    FoodArticleService {
 
     private final FoodArticleRepository foodArticleRepository;
     private final FoodRepository foodRepository;
     private final WineRepository wineRepository;
-    private final FoodArticleLikesRepository foodArticleLikesRepository;
 
     public List<FoodArticleDTO> getFoodArticlesByWineCharacteristics(WineType wineType, int boldness, int acidity, int fizziness, int tannic) {
         List<FoodArticle> foodArticles = foodArticleRepository.findByWineCharacteristics(wineType, boldness, acidity, fizziness, tannic);
         return foodArticles.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
+    }
+
+    public FoodArticleDTO getFoodArticleById(Long id) {
+        FoodArticle foodArticle = foodArticleRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("FoodArticle not found with id: " + id));
+
+        return convertToDto(foodArticle);
     }
 
 
@@ -57,7 +63,7 @@ public class FoodArticleService {
                 foodArticle.getWine().getAcidity(),
                 foodArticle.getWine().getFizziness(),
                 foodArticle.getWine().getTannic(),
-                foodArticle.getLikes().size() // 좋아요 수
+                foodArticle.getLikesCount()
         );
     }
 
@@ -98,12 +104,19 @@ public class FoodArticleService {
     }
 
     public void deleteArticle(Long foodArticleId) {
-        // FoodArticleLikes 레코드 먼저 삭제
-        List<FoodArticleLikes> likes = foodArticleLikesRepository.findByFoodArticleId(foodArticleId);
-        foodArticleLikesRepository.deleteAll(likes);
+        FoodArticle foodArticle = foodArticleRepository.findById(foodArticleId)
+                .orElseThrow(() -> new EntityNotFoundException("FoodArticle not found with id: " + foodArticleId));
 
-        // 이제 FoodArticle 삭제
+        // Food와 Wine 엔티티의 ID를 가져옵니다.
+        Long foodId = foodArticle.getFood().getId();
+        Long wineId = foodArticle.getWine().getId();
+
+        // FoodArticle 삭제
         foodArticleRepository.deleteById(foodArticleId);
+
+        // Food와 Wine 엔티티 삭제
+        foodRepository.deleteById(foodId);
+        wineRepository.deleteById(wineId);
     }
 
     public List<FoodArticleDTO> searchByFoodName(String foodName) {
@@ -120,10 +133,9 @@ public class FoodArticleService {
                 .collect(Collectors.toList());
     }
 
-    public FoodArticleDTO getFoodArticles(Long id) {
+    public FoodArticleDTO findById(Long id) {
         FoodArticle foodArticle = foodArticleRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("FoodArticle not found with id: " + id));
-
         return convertToDto(foodArticle);
     }
 }
