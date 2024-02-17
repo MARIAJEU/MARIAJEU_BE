@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.example.mariajeu.domain.homepageDomain.Comment.Comment;
 import org.example.mariajeu.domain.homepageDomain.Food;
 import org.example.mariajeu.domain.homepageDomain.Wine;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.Set;
 
@@ -18,7 +19,7 @@ import java.util.Set;
 public class FoodArticle {
     @Id  // PK
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "foodArticle_id", updatable = false)
+    @Column
     private Long id;
 
     @ManyToOne
@@ -29,17 +30,24 @@ public class FoodArticle {
     @JoinColumn(name = "wine_id", referencedColumnName = "id")
     private Wine wine;
 
-    @OneToMany(mappedBy = "foodArticle")
-    private Set<FoodArticleLikes> likes;
 
     @OneToMany(mappedBy = "foodArticle")
     private Set<Comment> comments;
 
+    @Column
+    @OneToMany(mappedBy = "foodArticle")
+    private Set<FoodArticleLikes> likes;
+
+    @ColumnDefault("0")
+    @Column(name="views",nullable = false)
     private int views;
+
     @Builder
-    public FoodArticle(Food food, Wine wine, Set<FoodArticleLikes> likes) {
+    public FoodArticle(Food food, Wine wine) {
         this.food = food;
         this.wine = wine;
-        this.likes = likes;
+    }
+    public int getLikesCount() {
+        return likes.size();
     }
 }

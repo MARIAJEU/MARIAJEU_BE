@@ -54,6 +54,7 @@ public class Wine {
     @Max(100)
     private int tannic;
 
+
     public Wine(String name, String type, int boldness,
                 int acidity, int fizziness, int tannic){
         this.name=name;

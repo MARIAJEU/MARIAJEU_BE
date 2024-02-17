@@ -18,4 +18,7 @@ public interface FoodArticleRepository extends JpaRepository<FoodArticle, Long> 
 
     List<FoodArticle>findByFoodName(String foodName);
     List<FoodArticle>findByWineType(WineType wineType);
+
+
 }
+

@@ -40,7 +40,7 @@ public class Food {
     @ElementCollection
     @CollectionTable(name = "food_instructions", joinColumns = @JoinColumn(name = "food_id"))
     @Column(name = "instruction")
-        private List<String> instructions;
+    private List<String> instructions;
 
     public Food(String name, String englishName, String photoUrl, String videoUrl, List<Ingredient> primaryIngredients, List<Ingredient> sauceIngredients, List<String> instructions) {
         this.name = name;
