@@ -19,7 +19,7 @@ import java.util.Set;
 public class FoodArticle {
     @Id  // PK
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "foodArticle_id")
     private Long id;
 
     @ManyToOne
